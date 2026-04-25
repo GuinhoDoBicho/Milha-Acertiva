@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILHAR ACERTIVA DO GUINHO</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #2980b9;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f1c40f;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        header h1 { color: var(--primary); font-size: 20px; margin: 0; text-transform: uppercase; }
+        #relogio { color: var(--danger); font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+
+        .box-palpite {
+            background: linear-gradient(135deg, var(--warning), #d4ac0d);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #000;
+            font-weight: 800;
+            border: 2px solid #b7950b;
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .selector-grid label {
+            background: #eee;
+            padding: 12px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 2px solid transparent;
+        }
+
+        .selector-grid input { display: none; }
+        .selector-grid input:checked + label {
+            background: var(--success);
+            color: white;
+            border-color: #1e8449;
+        }
+
+        .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
+        .btn-gerar { background: var(--accent); }
+        .btn-limpar { background: #7f8c8d; }
+        .btn-share { background: var(--success); width: 100%; margin-top: 10px; }
+
+        .checker-section {
+            background: #fdfefe;
+            border: 2px dashed var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 22px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            letter-spacing: 4px;
+        }
+
+        #resultado {
+            margin-top: 15px;
+            text-align: left;
+            max-height: 250px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+        }
+
+        .milhar-linha {
+            padding: 8px;
+            border-bottom: 1px solid #f1f1f1;
+            font-family: monospace;
+            font-size: 18px;
+        }
+
+        .highlight-win {
+            color: #0000ff;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            font-weight: bold;
+            background-color: #ebf5fb;
+        }
+
+        footer { margin-top: 20px; color: #7f8c8d; font-size: 12px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>MILHAR ACERTIVA DO GUINHO</h1>
+            <div id="relogio">--/--/-- 00:00:00</div>
+        </header>
+
+        <div class="box-palpite">
+            <div>⭐ PALPITE DO DIA ⭐</div>
+            <div id="palpiteDiario">Gerando números...</div>
+        </div>
+
+        <p style="font-size: 14px; margin-bottom: 5px;">Selecione 7 dezenas para o fechamento:</p>
+        <div class="selector-grid" id="gridNumeros"></div>
+
+        <div class="btn-group">
+            <button class="btn-gerar" onclick="gerarFechamento()">GERAR JOGOS</button>
+            <button class="btn-limpar" onclick="limpar()">LIMPAR TUDO</button>
+        </div>
+
+        <div class="checker-section">
+            <p style="margin: 0 0 10px 0; font-weight: bold;">CONFERIDOR RÁPIDO</p>
+            <input type="number" id="inputSorteio" placeholder="0000" oninput="conferir()">
+        </div>
+
+        <div id="resultado"></div>
+        <button class="btn-share" id="btnShare" style="display:none" onclick="compartilhar()">COMPARTILHAR NO WHATSAPP</button>
+    </div>
+
+    <footer>Criado por Guinho</footer>
+
+    <script>
+        // Relógio Dinâmico
+        function atualizarRelogio() {
+            const agora = new Date();
+            document.getElementById('relogio').innerText = agora.toLocaleString('pt-BR');
+        }
+        setInterval(atualizarRelogio, 1000);
+        atualizarRelogio();
+
+        // Lógica do Palpite Diário (3Í/4P ou 4Í/3P)
+        function gerarPalpite() {
+            const impares = [1, 3, 5, 7, 9];
+            const pares = [0, 2, 4, 6, 8];
+            
+            // Decisão do padrão: 0 para 3Í/4P e 1 para 4Í/3P
+            const padrao = Math.floor(Math.random() * 2);
+            let qtdI = padrao === 0 ? 3 : 4;
+            let qtdP = padrao === 0 ? 4 : 3;
+
+            const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+            
+            const escolhidosI = shuffle([...impares]).slice(0, qtdI);
+            const escolhidosP = shuffle([...pares]).slice(0, qtdP);
+            
+            const final = [...escolhidosI, ...escolhidosP].sort((a, b) => a - b);
+            document.getElementById('palpiteDiario').innerText = final.join(" - ");
+        }
+        gerarPalpite();
+
+        // Criar Selector de 0 a 9
+        const grid = document.getElementById('gridNumeros');
+        for(let i=0; i<=9; i++) {
+            grid.innerHTML += `<input type="checkbox" id="d${i}" value="${i}" class="num-check">
+                               <label for="d${i}">${i}</label>`;
+        }
+
+        let milharesGlobal = [];
+
+        function gerarFechamento() {
+            const selecionados = Array.from(document.querySelectorAll('.num-check:checked')).map(c => c.value);
+            
+            if(selecionados.length !== 7) {
+                alert("Selecione exatamente 7 dezenas!");
+                return;
+            }
+
+            milharesGlobal = [];
+            // Combinação Matemática C(7,4) = 35 linhas
+            const comb = (arr, k) => {
+                let res = [];
+                const f = (start, prev) => {
+                    if (prev.length === k) {
+                        res.push(prev.join(''));
+                        return;
+                    }
+                    for (let i = start; i < arr.length; i++) {
+                        f(i + 1, [...prev, arr[i]]);
+                    }
+                }
+                f(0, []);
+                return res;
+            };
+
+            milharesGlobal = comb(selecionados, 4);
+            exibir();
+            document.getElementById('btnShare').style.display = 'block';
+        }
+
+        function exibir() {
+            const resDiv = document.getElementById('resultado');
+            const sorteio = document.getElementById('inputSorteio').value;
+            resDiv.innerHTML = `<strong>Total: ${milharesGlobal.length} milhares</strong><br>`;
+            
+            milharesGlobal.forEach(m => {
+                let winClass = "";
+                if(sorteio.length === 4) {
+                    // Lógica de fechamento: milhar invertida (4 de 4)
+                    const mSorted = m.split('').sort().join('');
+                    const sSorted = sorteio.split('').sort().join('');
+                    if(mSorted === sSorted) winClass = "highlight-win";
+                }
+                resDiv.innerHTML += `<div class="milhar-linha ${winClass}">${m}</div>`;
+            });
+        }
+
+        function conferir() {
+            if(milharesGlobal.length > 0) exibir();
+        }
+
+        function limpar() {
+            document.querySelectorAll('.num-check').forEach(c => c.checked = false);
+            document.getElementById('resultado').innerHTML = "";
+            document.getElementById('inputSorteio').value = "";
+            document.getElementById('btnShare').style.display = 'none';
+            milharesGlobal = [];
+        }
+
+        function compartilhar() {
+            const msg = encodeURIComponent(`*MILHAR ACERTIVA DO GUINHO*\nMeus jogos de hoje:\n\n${milharesGlobal.join(" - ")}`);
+            window.open(`https://api.whatsapp.com/send?text=${msg}`);
+        }
+    </script>
+</body>
+</html>
