@@ -6,44 +6,48 @@
     <title>MILHAR ACERTIVA DO GUINHO</title>
     <style>
         :root {
-            --primary: #2c3e50;
+            --primary: #1a252f;
             --accent: #2980b9;
             --success: #27ae60;
-            --danger: #e74c3c;
-            --warning: #f1c40f;
+            --danger: #c0392b;
+            --warning: #f39c12;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
             margin: 0;
+            /* Impede seleção de texto acidental */
+            user-select: none; 
+            -webkit-user-select: none;
         }
 
         .container {
             background: #fff;
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             width: 100%;
-            max-width: 450px;
+            max-width: 440px;
             text-align: center;
         }
 
-        header h1 { color: var(--primary); font-size: 20px; margin: 0; text-transform: uppercase; }
-        #relogio { color: var(--danger); font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+        h1 { color: var(--primary); font-size: 1.3rem; margin: 0; }
+        #relogio { color: var(--danger); font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; }
 
         .box-palpite {
-            background: linear-gradient(135deg, var(--warning), #d4ac0d);
+            background: linear-gradient(135deg, #f1c40f, #d4ac0d);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 20px;
             color: #000;
-            font-weight: 800;
+            font-weight: 900;
             border: 2px solid #b7950b;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .selector-grid {
@@ -54,69 +58,94 @@
         }
 
         .selector-grid label {
-            background: #eee;
-            padding: 12px 0;
-            border-radius: 6px;
+            background: #f8f9fa;
+            padding: 14px 0;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            border: 2px solid transparent;
+            border: 2px solid #dee2e6;
+            transition: 0.2s;
         }
 
-        .selector-grid input { display: none; }
         .selector-grid input:checked + label {
             background: var(--success);
             color: white;
             border-color: #1e8449;
+            transform: scale(1.05);
         }
 
-        .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
-        .btn-gerar { background: var(--accent); }
-        .btn-limpar { background: #7f8c8d; }
-        .btn-share { background: var(--success); width: 100%; margin-top: 10px; }
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            margin-bottom: 10px;
+        }
 
-        .checker-section {
-            background: #fdfefe;
+        .btn-gerar { background: var(--accent); }
+        .btn-limpar { background: #6c757d; }
+        .btn-share { background: #25d366; }
+
+        .checker-box {
+            background: #f1f8ff;
             border: 2px dashed var(--accent);
             padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
         }
 
         input[type="number"] {
             width: 80%;
-            padding: 10px;
-            font-size: 22px;
+            padding: 12px;
+            font-size: 24px;
             text-align: center;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            letter-spacing: 4px;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            letter-spacing: 5px;
+            font-weight: bold;
         }
 
         #resultado {
-            margin-top: 15px;
+            margin-top: 20px;
             text-align: left;
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
-            border-top: 1px solid #eee;
+            border-radius: 8px;
+            background: #fff;
         }
 
-        .milhar-linha {
-            padding: 8px;
-            border-bottom: 1px solid #f1f1f1;
-            font-family: monospace;
-            font-size: 18px;
+        .milhar-row {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .highlight-win {
-            color: #0000ff;
-            text-decoration: underline;
-            text-decoration-thickness: 2px;
+        /* O DESTAQUE QUE VOCÊ PEDIU */
+        .acerto-azul {
+            color: #0000ff !important;
+            text-decoration: underline !important;
+            text-decoration-color: #0000ff !important;
+            text-decoration-thickness: 3px !important;
             font-weight: bold;
-            background-color: #ebf5fb;
+            background-color: #e7f0ff;
         }
 
-        footer { margin-top: 20px; color: #7f8c8d; font-size: 12px; font-weight: bold; }
+        footer {
+            margin-top: 25px;
+            color: #adb5bd;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Esconde inputs nativos */
+        input[type=checkbox] { display: none; }
     </style>
 </head>
 <body>
@@ -128,137 +157,114 @@
         </header>
 
         <div class="box-palpite">
-            <div>⭐ PALPITE DO DIA ⭐</div>
-            <div id="palpiteDiario">Carregando palpite fixo...</div>
+            <div style="font-size: 0.8rem; opacity: 0.8;">PALPITE DO DIA (MEIA-NOITE)</div>
+            <div id="palpiteTxt" style="font-size: 1.4rem;">...</div>
         </div>
 
-        <p style="font-size: 14px; margin-bottom: 5px;">Selecione 7 dezenas para o fechamento:</p>
-        <div class="selector-grid" id="gridNumeros"></div>
+        <div class="selector-grid" id="numGrid"></div>
 
-        <div class="btn-group">
-            <button class="btn-gerar" onclick="gerarFechamento()">GERAR JOGOS</button>
-            <button class="btn-limpar" onclick="limpar()">LIMPAR TUDO</button>
-        </div>
+        <button class="btn-main btn-gerar" onclick="executarLogicaGuinho()">GERAR 35 MILHARES</button>
+        <button class="btn-main btn-limpar" onclick="resetar()">LIMPAR TUDO</button>
 
-        <div class="checker-section">
-            <p style="margin: 0 0 10px 0; font-weight: bold;">CONFERIDOR RÁPIDO</p>
-            <input type="number" id="inputSorteio" placeholder="0000" oninput="conferir()">
+        <div class="checker-box">
+            <p style="margin: 0 0 10px 0; font-size: 0.9rem; font-weight: bold;">CONFERIDOR DE ACERTOS</p>
+            <input type="number" id="numSorteado" placeholder="0000" oninput="conferirAcertos()">
         </div>
 
         <div id="resultado"></div>
-        <button class="btn-share" id="btnShare" style="display:none" onclick="compartilhar()">COMPARTILHAR NO WHATSAPP</button>
+        <button class="btn-main btn-share" id="shareBtn" style="display:none" onclick="enviarZap()">COMPARTILHAR JOGOS</button>
     </div>
 
-    <footer>Criado por Guinho</footer>
+    <footer>CRIADO POR GUINHO</footer>
 
     <script>
-        // Relógio Dinâmico
-        function atualizarRelogio() {
-            const agora = new Date();
-            document.getElementById('relogio').innerText = agora.toLocaleString('pt-BR');
-        }
-        setInterval(atualizarRelogio, 1000);
-        atualizarRelogio();
-
-        // Lógica de Palpite Fixo por Dia (Muda às 00:00)
-        function gerarPalpiteDiarioFixo() {
-            const agora = new Date();
-            // Cria uma "semente" baseada no Ano, Mês e Dia
-            const seedStr = agora.getFullYear().toString() + (agora.getMonth() + 1).toString() + agora.getDate().toString();
-            
-            // Função geradora de números pseudo-aleatórios baseada na semente
-            function seededRandom(s) {
-                let x = Math.sin(s) * 10000;
-                return x - Math.floor(x);
+        /** * PROTEÇÃO DE CÓDIGO - ESTRATÉGIA GUINHO 
+         **/
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || 
+                (e.ctrlKey && e.keyCode == 85)) {
+                return false;
             }
+        };
 
-            let seed = parseInt(seedStr);
-            const impares = [1, 3, 5, 7, 9];
-            const pares = [0, 2, 4, 6, 8];
-            
-            // Define o padrão do dia (3Í/4P ou 4Í/3P) usando a seed
-            const padrao = seededRandom(seed) > 0.5 ? 0 : 1;
-            let qtdI = padrao === 0 ? 3 : 4;
-            let qtdP = padrao === 0 ? 4 : 3;
-
-            // Embaralhamento fixo para a data
-            const shuffleSeeded = (array, s) => {
-                let m = array.length, t, i;
-                while (m) {
-                    i = Math.floor(seededRandom(s++) * m--);
-                    t = array[m];
-                    array[m] = array[i];
-                    array[i] = t;
-                }
-                return array;
-            };
-
-            const escolhidosI = shuffleSeeded([...impares], seed).slice(0, qtdI);
-            const escolhidosP = shuffleSeeded([...pares], seed + 100).slice(0, qtdP);
-            
-            const final = [...escolhidosI, ...escolhidosP].sort((a, b) => a - b);
-            document.getElementById('palpiteDiario').innerText = final.join(" - ");
+        // Relógio
+        function clock() {
+            document.getElementById('relogio').innerText = new Date().toLocaleString('pt-BR');
         }
-        gerarPalpiteDiarioFixo();
+        setInterval(clock, 1000);
+        clock();
 
-        // Criar Selector de 0 a 9
-        const grid = document.getElementById('gridNumeros');
+        // Palpite Diário 3/4 ou 4/3 fixo por 24h
+        function carregarSugestao() {
+            const d = new Date();
+            const s = d.getFullYear() + "" + (d.getMonth() + 1) + "" + d.getDate();
+            let seed = parseInt(s);
+            
+            const random = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+
+            const imp = [1,3,5,7,9], par = [0,2,4,6,8];
+            const pdr = random() > 0.5 ? [3,4] : [4,3];
+
+            const misturar = (a) => a.sort(() => random() - 0.5);
+            const res = [...misturar(imp).slice(0, pdr[0]), ...misturar(par).slice(0, pdr[1])].sort();
+            
+            document.getElementById('palpiteTxt').innerText = res.join(" - ");
+        }
+        carregarSugestao();
+
+        // Grid
+        const grid = document.getElementById('numGrid');
         for(let i=0; i<=9; i++) {
-            grid.innerHTML += `<input type="checkbox" id="d${i}" value="${i}" class="num-check">
-                               <label for="d${i}">${i}</label>`;
+            grid.innerHTML += `<input type="checkbox" id="v${i}" value="${i}" class="g-check"><label for="v${i}">${i}</label>`;
         }
 
-        let milharesGlobal = [];
+        let listaAtual = [];
 
-        function gerarFechamento() {
-            const selecionados = Array.from(document.querySelectorAll('.num-check:checked')).map(c => c.value);
-            if(selecionados.length !== 7) {
-                alert("Selecione exatamente 7 dezenas!");
-                return;
-            }
-            milharesGlobal = comb(selecionados, 4);
-            exibir();
-            document.getElementById('btnShare').style.display = 'block';
-        }
+        function executarLogicaGuinho() {
+            const sel = Array.from(document.querySelectorAll('.g-check:checked')).map(c => c.value);
+            if(sel.length !== 7) return alert("Selecione 7 dezenas!");
 
-        function comb(arr, k) {
-            let res = [];
-            const f = (start, prev) => {
-                if (prev.length === k) { res.push(prev.join('')); return; }
-                for (let i = start; i < arr.length; i++) { f(i + 1, [...prev, arr[i]]); }
-            }
+            listaAtual = [];
+            const f = (start, combo) => {
+                if(combo.length === 4) { listaAtual.push(combo.join('')); return; }
+                for(let i=start; i<sel.length; i++) f(i+1, [...combo, sel[i]]);
+            };
             f(0, []);
-            return res;
+            render();
+            document.getElementById('shareBtn').style.display = 'block';
         }
 
-        function exibir() {
-            const resDiv = document.getElementById('resultado');
-            const sorteio = document.getElementById('inputSorteio').value;
-            resDiv.innerHTML = `<strong>Total: ${milharesGlobal.length} milhares</strong><br>`;
-            milharesGlobal.forEach(m => {
-                let winClass = "";
-                if(sorteio.length === 4) {
-                    const mSorted = m.split('').sort().join('');
-                    const sSorted = sorteio.split('').sort().join('');
-                    if(mSorted === sSorted) winClass = "highlight-win";
+        function render() {
+            const out = document.getElementById('resultado');
+            const sort = document.getElementById('numSorteado').value;
+            out.innerHTML = "";
+            
+            listaAtual.forEach(m => {
+                let win = "";
+                if(sort.length === 4) {
+                    const mS = m.split('').sort().join('');
+                    const sS = sort.split('').sort().join('');
+                    if(mS === sS) win = "acerto-azul";
                 }
-                resDiv.innerHTML += `<div class="milhar-linha ${winClass}">${m}</div>`;
+                out.innerHTML += `<div class="milhar-row ${win}"><span>${m}</span> ${win ? '<span>ACERTOU!</span>' : ''}</div>`;
             });
         }
 
-        function conferir() { if(milharesGlobal.length > 0) exibir(); }
+        function conferirAcertos() { if(listaAtual.length > 0) render(); }
 
-        function limpar() {
-            document.querySelectorAll('.num-check').forEach(c => c.checked = false);
+        function resetar() {
+            document.querySelectorAll('.g-check').forEach(c => c.checked = false);
             document.getElementById('resultado').innerHTML = "";
-            document.getElementById('inputSorteio').value = "";
-            document.getElementById('btnShare').style.display = 'none';
-            milharesGlobal = [];
+            document.getElementById('numSorteado').value = "";
+            document.getElementById('shareBtn').style.display = 'none';
+            listaAtual = [];
         }
 
-        function compartilhar() {
-            const msg = encodeURIComponent(`*MILHAR ACERTIVA DO GUINHO*\nMeus jogos de hoje:\n\n${milharesGlobal.join(" - ")}`);
-            window.open(`https://api.whatsapp.com/send?text=${msg}`);
+        function enviarZap() {
+            const t = "*MILHAR DO GUINHO*\n\nFechamento 7 p/ 4:\n" + listaAtual.join(" - ");
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(t)}`);
         }
     </script>
 </body>
