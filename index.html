@@ -160,7 +160,7 @@
         </div>
 
         <div id="resultado"></div>
-        <button class="btn-main btn-share" id="shareBtn" style="display:none" onclick="enviarZap()">COMPARTILHAR NO WHATSAPP</button>
+        <button class="btn-main btn-share" id="shareBtn" style="display:none" onclick="enviarZap()">COMPARTILHAR NO MODELO ELITE</button>
     </div>
 
     <footer>CRIADO POR GUINHO</footer>
@@ -172,11 +172,9 @@
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
 
-        // Relógio
         function clock() { document.getElementById('relogio').innerText = new Date().toLocaleString('pt-BR'); }
         setInterval(clock, 1000); clock();
 
-        // Palpite Diário 3/4 ou 4/3 Fixo
         function carregarSugestao() {
             const d = new Date();
             const s = d.getFullYear() + "" + (d.getMonth() + 1) + "" + d.getDate();
@@ -190,29 +188,26 @@
         }
         carregarSugestao();
 
-        // Gerar Grid com Trava de 7 Dezenas
         const grid = document.getElementById('numGrid');
         for(let i=0; i<=9; i++) {
-            grid.innerHTML += `
-                <input type="checkbox" id="v${i}" value="${i}" class="g-check" onchange="validarLimite(this)">
-                <label for="v${i}">${i}</label>
-            `;
+            grid.innerHTML += `<input type="checkbox" id="v${i}" value="${i}" class="g-check" onchange="validarLimite(this)"><label for="v${i}">${i}</label>`;
         }
 
         function validarLimite(checkbox) {
-            const marcados = document.querySelectorAll('.g-check:checked');
-            if (marcados.length > 7) {
-                checkbox.checked = false; // Desmarca a 8ª tentativa
-                alert("Atenção! Você só pode escolher exatamente 7 dezenas para este fechamento.");
+            if (document.querySelectorAll('.g-check:checked').length > 7) {
+                checkbox.checked = false;
+                alert("Atenção! Você só pode escolher exatamente 7 dezenas.");
             }
         }
 
         let listaAtual = [];
+        let selecionadosGlobal = [];
 
         function executarLogicaGuinho() {
             const sel = Array.from(document.querySelectorAll('.g-check:checked')).map(c => c.value);
-            if(sel.length !== 7) return alert("Por favor, selecione as 7 dezenas necessárias.");
-
+            if(sel.length !== 7) return alert("Por favor, selecione as 7 dezenas.");
+            
+            selecionadosGlobal = [...sel];
             listaAtual = [];
             const f = (start, combo) => {
                 if(combo.length === 4) { listaAtual.push(combo.join('')); return; }
@@ -234,7 +229,7 @@
                     const sS = sort.split('').sort().join('');
                     if(mS === sS) win = "acerto-azul";
                 }
-                out.innerHTML += `<div class="milhar-row ${win}"><span>${m}</span> ${win ? '<span>4 PONTOS!</span>' : ''}</div>`;
+                out.innerHTML += `<div class="milhar-row ${win}"><span>${m}</span></div>`;
             });
         }
 
@@ -249,8 +244,28 @@
         }
 
         function enviarZap() {
-            const t = "*MILHAR ACERTIVA DO GUINHO*\n\nFechamento 7 p/ 4 (35 Jogos):\n\n" + listaAtual.join(" - ");
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(t)}`);
+            // Identificar quem ficou de fora (O Lixo)
+            const todos = ["0","1","2","3","4","5","6","7","8","9"];
+            const lixo = todos.filter(n => !selecionadosGlobal.includes(n));
+
+            // Chunking dos blocos
+            const b1 = listaAtual.slice(0, 10).join(' | ');
+            const b2 = listaAtual.slice(10, 20).join(' | ');
+            const b3 = listaAtual.slice(20, 30).join(' | ');
+            const b4 = listaAtual.slice(30, 35).join(' | ');
+
+            const msg = `*MILHAR ACERTIVA DO GUINHO*\n\n` +
+                        `NOSSAS 7 DEZENAS DE ELITE:\n` +
+                        `${selecionadosGlobal.join(' - ')}\n\n` +
+                        `🚫 QUEM FICOU DE FORA (O LIXO):\n` +
+                        `${lixo.join(' - ')}\n\n` +
+                        `(Essas três cansaram e a matemática mostra que hoje elas não têm força na cabeça!)\n\n` +
+                        `📦 BLOCO 01 (10 JOGOS)\n${b1}\n\n` +
+                        `📦 BLOCO 02 (10 JOGOS)\n${b2}\n\n` +
+                        `📦 BLOCO 03 (10 JOGOS)\n${b3}\n\n` +
+                        `📦 BLOCO 04 (05 JOGOS)\n${b4}`;
+
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
         }
     </script>
 </body>
