@@ -1,272 +1,519 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MILHAR ACERTIVA DO GUINHO</title>
-    <style>
-        :root {
-            --primary: #1a252f;
-            --accent: #2980b9;
-            --success: #27ae60;
-            --danger: #c0392b;
-            --warning: #f39c12;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILHAR ACERTIVA DO GUINHO</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e9ecef;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-            margin: 0;
-            user-select: none; 
-            -webkit-user-select: none;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-            width: 100%;
-            max-width: 440px;
-            text-align: center;
-        }
+<style>
 
-        header h1 { color: var(--primary); font-size: 1.3rem; margin: 0; text-transform: uppercase; }
-        #relogio { color: var(--danger); font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; }
+:root{
+    --gold:#ffcc00;
+    --gold2:#ffae00;
+    --dark:#120000;
+    --dark2:#240000;
+    --red:#7a0000;
+    --red2:#b30000;
+    --text:#fff5d6;
+}
 
-        .box-palpite {
-            background: linear-gradient(135deg, #f1c40f, #d4ac0d);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            color: #000;
-            font-weight: 900;
-            border: 2px solid #b7950b;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .selector-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            margin: 15px 0;
-        }
+body{
+    font-family:'Montserrat',sans-serif;
+    background:
+    radial-gradient(circle at top,#5c0000 0%,#1a0000 40%,#000 100%);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:15px;
+    color:white;
+}
 
-        .selector-grid label {
-            background: #f8f9fa;
-            padding: 14px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            border: 2px solid #dee2e6;
-            transition: 0.2s;
-        }
+.container{
+    width:100%;
+    max-width:450px;
+    background:rgba(20,0,0,0.95);
+    border:2px solid var(--gold);
+    border-radius:25px;
+    padding:20px;
+    box-shadow:
+    0 0 25px rgba(255,204,0,.4),
+    inset 0 0 20px rgba(255,180,0,.1);
+}
 
-        .selector-grid input:checked + label {
-            background: var(--success);
-            color: white;
-            border-color: #1e8449;
-        }
+header{
+    text-align:center;
+    margin-bottom:20px;
+}
 
-        .btn-main {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            color: white;
-            margin-bottom: 10px;
-        }
+header h1{
+    font-size:1.4rem;
+    font-weight:900;
+    color:var(--gold);
+    text-shadow:0 0 10px rgba(255,204,0,.6);
+}
 
-        .btn-gerar { background: var(--accent); }
-        .btn-limpar { background: #6c757d; }
-        .btn-share { background: #25d366; }
+#relogio{
+    color:#ffd966;
+    margin-top:5px;
+    font-weight:bold;
+}
 
-        .checker-box {
-            background: #f1f8ff;
-            border: 2px dashed var(--accent);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
+.box-palpite{
+    background:
+    linear-gradient(145deg,#7a0000,#320000);
+    border:2px solid var(--gold);
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:20px;
+    box-shadow:
+    0 0 15px rgba(255,204,0,.3),
+    inset 0 0 10px rgba(255,255,255,.08);
+    text-align:center;
+}
 
-        input[type="number"] {
-            width: 80%;
-            padding: 12px;
-            font-size: 24px;
-            text-align: center;
-            border: 2px solid #ced4da;
-            border-radius: 8px;
-            letter-spacing: 5px;
-        }
+.box-palpite .titulo{
+    color:#ffe082;
+    font-size:.9rem;
+    margin-bottom:10px;
+    font-weight:700;
+}
 
-        #resultado {
-            margin-top: 20px;
-            text-align: left;
-            max-height: 300px;
-            overflow-y: auto;
-            background: #fff;
-        }
+#palpiteTxt{
+    font-family:'Orbitron',sans-serif;
+    font-size:2rem;
+    color:var(--gold);
+    font-weight:700;
+    letter-spacing:4px;
+    text-shadow:0 0 10px rgba(255,204,0,.6);
+}
 
-        .milhar-row {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            font-family: 'Courier New', monospace;
-            font-size: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
+.select-title{
+    text-align:center;
+    margin-bottom:10px;
+    font-weight:700;
+    color:#fff0c2;
+}
 
-        .acerto-azul {
-            color: #0000ff !important;
-            text-decoration: underline !important;
-            text-decoration-color: #0000ff !important;
-            text-decoration-thickness: 3px !important;
-            font-weight: bold;
-            background-color: #e7f0ff;
-        }
+.selector-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
 
-        footer { margin-top: 25px; color: #adb5bd; font-size: 0.8rem; font-weight: bold; }
-        input[type=checkbox] { display: none; }
-    </style>
+.selector-grid label{
+    background:
+    linear-gradient(145deg,#5c0000,#260000);
+    border:2px solid #b87a00;
+    color:white;
+    padding:16px 0;
+    text-align:center;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:900;
+    font-size:1.1rem;
+    transition:.2s;
+    box-shadow:0 0 8px rgba(255,170,0,.15);
+}
+
+.selector-grid label:hover{
+    transform:scale(1.05);
+}
+
+.selector-grid input:checked + label{
+    background:
+    linear-gradient(145deg,#ffcc00,#ff9d00);
+    color:#3b0000;
+    box-shadow:
+    0 0 15px rgba(255,204,0,.7);
+}
+
+input[type=checkbox]{
+    display:none;
+}
+
+.btn-main{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    font-weight:900;
+    font-size:1rem;
+    cursor:pointer;
+    margin-bottom:12px;
+    transition:.2s;
+}
+
+.btn-main:hover{
+    transform:scale(1.02);
+}
+
+.btn-gerar{
+    background:
+    linear-gradient(145deg,#ffcc00,#ff8800);
+    color:#3b0000;
+    box-shadow:0 0 15px rgba(255,204,0,.5);
+}
+
+.btn-limpar{
+    background:
+    linear-gradient(145deg,#5e5e5e,#2e2e2e);
+    color:white;
+}
+
+.btn-share{
+    background:
+    linear-gradient(145deg,#25d366,#128c7e);
+    color:white;
+    margin-top:15px;
+}
+
+.checker-box{
+    margin-top:20px;
+    background:rgba(255,255,255,.04);
+    border:2px solid var(--gold);
+    border-radius:18px;
+    padding:18px;
+    text-align:center;
+}
+
+.checker-box p{
+    color:#ffd966;
+    font-weight:700;
+    margin-bottom:12px;
+}
+
+input[type=number]{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    background:#fff3cd;
+    color:#5a0000;
+    font-size:2rem;
+    text-align:center;
+    font-family:'Orbitron',sans-serif;
+    letter-spacing:5px;
+    font-weight:700;
+}
+
+#resultado{
+    margin-top:20px;
+    max-height:300px;
+    overflow-y:auto;
+    border-radius:15px;
+    background:rgba(255,255,255,.03);
+    padding:10px;
+}
+
+.milhar-row{
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:10px;
+    background:
+    linear-gradient(145deg,#300000,#180000);
+    border:1px solid rgba(255,204,0,.2);
+    font-family:'Orbitron',sans-serif;
+    font-size:1.2rem;
+    color:#fff5d6;
+}
+
+.acerto-azul{
+    background:
+    linear-gradient(145deg,#ffcc00,#ff8c00) !important;
+    color:#3b0000 !important;
+    font-weight:900;
+    box-shadow:0 0 15px rgba(255,204,0,.8);
+}
+
+footer{
+    margin-top:20px;
+    text-align:center;
+    color:#ffd966;
+    font-size:.8rem;
+    font-weight:700;
+}
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--gold);
+    border-radius:10px;
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <header>
-            <h1>MILHAR ACERTIVA DO GUINHO</h1>
-            <div id="relogio">--/--/-- 00:00:00</div>
-        </header>
+<div class="container">
 
-        <div class="box-palpite">
-            <div style="font-size: 0.8rem; opacity: 0.8;">PALPITE DO DIA (00:00h)</div>
-            <div id="palpiteTxt" style="font-size: 1.4rem;">...</div>
-        </div>
+<header>
+    <h1>👑 MILHAR ACERTIVA DO GUINHO</h1>
+    <div id="relogio">00/00/0000 00:00:00</div>
+</header>
 
-        <p style="font-size: 0.9rem; margin-bottom: 5px; font-weight: bold;">Escolha exatamente 7 dezenas:</p>
-        <div class="selector-grid" id="numGrid"></div>
+<div class="box-palpite">
+    <div class="titulo">PALPITE DO DIA (00:00h)</div>
+    <div id="palpiteTxt">...</div>
+</div>
 
-        <button class="btn-main btn-gerar" onclick="executarLogicaGuinho()">GERAR FECHAMENTO</button>
-        <button class="btn-main btn-limpar" onclick="resetar()">LIMPAR TUDO</button>
+<div class="select-title">
+    Escolha exatamente 7 dezenas:
+</div>
 
-        <div class="checker-box">
-            <p style="margin: 0 0 10px 0; font-size: 0.85rem; font-weight: bold;">CONFERIDOR DE PONTOS</p>
-            <input type="number" id="numSorteado" placeholder="0000" oninput="conferirAcertos()">
-        </div>
+<div class="selector-grid" id="numGrid"></div>
 
-        <div id="resultado"></div>
-        <button class="btn-main btn-share" id="shareBtn" style="display:none" onclick="enviarZap()">COMPARTILHAR NO MODELO ELITE</button>
-    </div>
+<button class="btn-main btn-gerar" onclick="executarLogicaGuinho()">
+🎲 GERAR FECHAMENTO
+</button>
 
-    <footer>CRIADO POR GUINHO</footer>
+<button class="btn-main btn-limpar" onclick="resetar()">
+🗑️ LIMPAR TUDO
+</button>
 
-    <script>
-        /** PROTEÇÃO DE CÓDIGO **/
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
-        };
+<div class="checker-box">
+    <p>🏆 CONFERIDOR DE PONTOS</p>
 
-        function clock() { document.getElementById('relogio').innerText = new Date().toLocaleString('pt-BR'); }
-        setInterval(clock, 1000); clock();
+    <input type="number"
+    id="numSorteado"
+    placeholder="0000"
+    oninput="conferirAcertos()">
+</div>
 
-        function carregarSugestao() {
-            const d = new Date();
-            const s = d.getFullYear() + "" + (d.getMonth() + 1) + "" + d.getDate();
-            let seed = parseInt(s);
-            const random = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
-            const imp = [1,3,5,7,9], par = [0,2,4,6,8];
-            const pdr = random() > 0.5 ? [3,4] : [4,3];
-            const misturar = (a) => a.sort(() => random() - 0.5);
-            const res = [...misturar(imp).slice(0, pdr[0]), ...misturar(par).slice(0, pdr[1])].sort();
-            document.getElementById('palpiteTxt').innerText = res.join(" - ");
+<div id="resultado"></div>
+
+<button class="btn-main btn-share"
+id="shareBtn"
+style="display:none"
+onclick="enviarZap()">
+📲 COMPARTILHAR NO MODELO ELITE
+</button>
+
+<footer>
+CRIADO POR GUINHO
+</footer>
+
+</div>
+
+<script>
+
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+document.onkeydown = function(e) {
+    if (
+        e.keyCode == 123 ||
+        (e.ctrlKey && e.shiftKey && [73,74,67].includes(e.keyCode)) ||
+        (e.ctrlKey && e.keyCode == 85)
+    ) return false;
+};
+
+function clock(){
+    document.getElementById('relogio').innerText =
+    new Date().toLocaleString('pt-BR');
+}
+
+setInterval(clock,1000);
+clock();
+
+function carregarSugestao(){
+
+    const d = new Date();
+    const s = d.getFullYear() + "" + (d.getMonth()+1) + "" + d.getDate();
+
+    let seed = parseInt(s);
+
+    const random = () => {
+        seed = (seed * 9301 + 49297) % 233280;
+        return seed / 233280;
+    };
+
+    const imp = [1,3,5,7,9];
+    const par = [0,2,4,6,8];
+
+    const pdr = random() > 0.5 ? [3,4] : [4,3];
+
+    const misturar = (a) => a.sort(() => random() - 0.5);
+
+    const res = [
+        ...misturar(imp).slice(0,pdr[0]),
+        ...misturar(par).slice(0,pdr[1])
+    ].sort();
+
+    document.getElementById('palpiteTxt').innerText =
+    res.join(" - ");
+}
+
+carregarSugestao();
+
+const grid = document.getElementById('numGrid');
+
+for(let i=0;i<=9;i++){
+
+    grid.innerHTML += `
+    <input type="checkbox"
+    id="v${i}"
+    value="${i}"
+    class="g-check"
+    onchange="validarLimite(this)">
+
+    <label for="v${i}">${i}</label>
+    `;
+}
+
+function validarLimite(checkbox){
+
+    if(document.querySelectorAll('.g-check:checked').length > 7){
+
+        checkbox.checked = false;
+
+        alert("Você só pode escolher exatamente 7 dezenas.");
+    }
+}
+
+let listaAtual = [];
+let selecionadosGlobal = [];
+
+function executarLogicaGuinho(){
+
+    const sel = Array
+    .from(document.querySelectorAll('.g-check:checked'))
+    .map(c => c.value);
+
+    if(sel.length !== 7){
+
+        return alert("Selecione exatamente 7 dezenas.");
+    }
+
+    selecionadosGlobal = [...sel];
+
+    listaAtual = [];
+
+    const f = (start, combo) => {
+
+        if(combo.length === 4){
+
+            listaAtual.push(combo.join(''));
+            return;
         }
-        carregarSugestao();
 
-        const grid = document.getElementById('numGrid');
-        for(let i=0; i<=9; i++) {
-            grid.innerHTML += `<input type="checkbox" id="v${i}" value="${i}" class="g-check" onchange="validarLimite(this)"><label for="v${i}">${i}</label>`;
+        for(let i=start;i<sel.length;i++){
+
+            f(i+1,[...combo, sel[i]]);
         }
+    };
 
-        function validarLimite(checkbox) {
-            if (document.querySelectorAll('.g-check:checked').length > 7) {
-                checkbox.checked = false;
-                alert("Atenção! Você só pode escolher exatamente 7 dezenas.");
+    f(0,[]);
+
+    render();
+
+    document.getElementById('shareBtn').style.display = 'block';
+}
+
+function render(){
+
+    const out = document.getElementById('resultado');
+
+    const sort = document.getElementById('numSorteado').value;
+
+    out.innerHTML = "";
+
+    listaAtual.forEach(m => {
+
+        let win = "";
+
+        if(sort.length === 4){
+
+            const mS = m.split('').sort().join('');
+            const sS = sort.split('').sort().join('');
+
+            if(mS === sS){
+
+                win = "acerto-azul";
             }
         }
 
-        let listaAtual = [];
-        let selecionadosGlobal = [];
+        out.innerHTML += `
+        <div class="milhar-row ${win}">
+            ${m}
+        </div>
+        `;
+    });
+}
 
-        function executarLogicaGuinho() {
-            const sel = Array.from(document.querySelectorAll('.g-check:checked')).map(c => c.value);
-            if(sel.length !== 7) return alert("Por favor, selecione as 7 dezenas.");
-            
-            selecionadosGlobal = [...sel];
-            listaAtual = [];
-            const f = (start, combo) => {
-                if(combo.length === 4) { listaAtual.push(combo.join('')); return; }
-                for(let i=start; i<sel.length; i++) f(i+1, [...combo, sel[i]]);
-            };
-            f(0, []);
-            render();
-            document.getElementById('shareBtn').style.display = 'block';
-        }
+function conferirAcertos(){
 
-        function render() {
-            const out = document.getElementById('resultado');
-            const sort = document.getElementById('numSorteado').value;
-            out.innerHTML = "";
-            listaAtual.forEach(m => {
-                let win = "";
-                if(sort.length === 4) {
-                    const mS = m.split('').sort().join('');
-                    const sS = sort.split('').sort().join('');
-                    if(mS === sS) win = "acerto-azul";
-                }
-                out.innerHTML += `<div class="milhar-row ${win}"><span>${m}</span></div>`;
-            });
-        }
+    if(listaAtual.length > 0){
 
-        function conferirAcertos() { if(listaAtual.length > 0) render(); }
+        render();
+    }
+}
 
-        function resetar() {
-            document.querySelectorAll('.g-check').forEach(c => c.checked = false);
-            document.getElementById('resultado').innerHTML = "";
-            document.getElementById('numSorteado').value = "";
-            document.getElementById('shareBtn').style.display = 'none';
-            listaAtual = [];
-        }
+function resetar(){
 
-        function enviarZap() {
-            // Identificar quem ficou de fora (O Lixo)
-            const todos = ["0","1","2","3","4","5","6","7","8","9"];
-            const lixo = todos.filter(n => !selecionadosGlobal.includes(n));
+    document.querySelectorAll('.g-check')
+    .forEach(c => c.checked = false);
 
-            // Chunking dos blocos
-            const b1 = listaAtual.slice(0, 10).join(' | ');
-            const b2 = listaAtual.slice(10, 20).join(' | ');
-            const b3 = listaAtual.slice(20, 30).join(' | ');
-            const b4 = listaAtual.slice(30, 35).join(' | ');
+    document.getElementById('resultado').innerHTML = "";
 
-            const msg = `*MILHAR ACERTIVA DO GUINHO*\n\n` +
-                        `NOSSAS 7 DEZENAS DE ELITE:\n` +
-                        `${selecionadosGlobal.join(' - ')}\n\n` +
-                        `🚫 QUEM FICOU DE FORA (O LIXO):\n` +
-                        `${lixo.join(' - ')}\n\n` +
-                        `(Essas três cansaram e a matemática mostra que hoje elas não têm força na cabeça!)\n\n` +
-                        `📦 BLOCO 01 (10 JOGOS)\n${b1}\n\n` +
-                        `📦 BLOCO 02 (10 JOGOS)\n${b2}\n\n` +
-                        `📦 BLOCO 03 (10 JOGOS)\n${b3}\n\n` +
-                        `📦 BLOCO 04 (05 JOGOS)\n${b4}`;
+    document.getElementById('numSorteado').value = "";
 
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
-        }
-    </script>
+    document.getElementById('shareBtn').style.display = 'none';
+
+    listaAtual = [];
+}
+
+function enviarZap(){
+
+    const todos = ["0","1","2","3","4","5","6","7","8","9"];
+
+    const lixo = todos.filter(n =>
+    !selecionadosGlobal.includes(n));
+
+    const b1 = listaAtual.slice(0,10).join(' | ');
+    const b2 = listaAtual.slice(10,20).join(' | ');
+    const b3 = listaAtual.slice(20,30).join(' | ');
+    const b4 = listaAtual.slice(30,35).join(' | ');
+
+    const msg =
+`👑 *MILHAR ACERTIVA DO GUINHO*
+
+🔥 NOSSAS 7 DEZENAS DE ELITE:
+${selecionadosGlobal.join(' - ')}
+
+🚫 O LIXO:
+${lixo.join(' - ')}
+
+📦 BLOCO 01
+${b1}
+
+📦 BLOCO 02
+${b2}
+
+📦 BLOCO 03
+${b3}
+
+📦 BLOCO 04
+${b4}`;
+
+window.open(
+`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`
+);
+
+}
+
+</script>
+
 </body>
 </html>
